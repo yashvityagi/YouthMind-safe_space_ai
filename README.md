@@ -113,9 +113,10 @@ The bot handles inputs smoothly through explicit user prompts or interactive qui
 ---
 
 ## 📸 Screenshots
-<img width="1916" height="865" alt="image" src="https://github.com/user-attachments/assets/f3caa0e3-de75-4bcc-b6d9-324653d41921" />
-<img width="1917" height="880" alt="ssa2" src="https://github.com/user-attachments/assets/7fc9c5f2-6982-4f33-90af-e51a61030b31" />
-<img width="1918" height="867" alt="image" src="https://github.com/user-attachments/assets/5d0dcae2-6bdc-4301-b411-b39bbe6c25a1" />
+<img width="1919" height="874" alt="image" src="https://github.com/user-attachments/assets/202fc333-03aa-4ac9-971d-6ba518d0ec81" />
+<img width="1918" height="865" alt="image" src="https://github.com/user-attachments/assets/111b7d8c-ee6c-472f-862b-630b6d35cff6" />
+
+
 
 
 
