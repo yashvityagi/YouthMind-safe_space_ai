@@ -88,108 +88,132 @@ def process_user_input(prompt, data):
 # --- 4. MODERN 3D UI DESIGN ---
 def apply_3d_ui():
     st.markdown("""
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-        
         <style>
-        /* Modern Dark Theme Base */
-        .stApp { background: #000000; color: white; }
-        
-        /* 3D Background */
-        #vanta-canvas {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+        /* 1. THE DYNAMIC BACKGROUND */
+        .stApp {
+            background: linear-gradient(125deg, #0a192f 0%, #0a192f 40%, #112240 100%);
+            background-attachment: fixed;
         }
 
-        /* Glassmorphism Chat Bubbles */
-        [data-testid="stChatMessage"] {
-            background: rgba(255, 255, 255, 0.07) !important;
-            backdrop-filter: blur(12px);
-            border-radius: 20px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            margin-bottom: 15px;
+        /* Animated Aurora Orbs for 3D Depth */
+        .stApp::before {
+            content: "";
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(78, 204, 163, 0.1) 0%, transparent 25%),
+                        radial-gradient(circle at 20% 30%, rgba(69, 183, 209, 0.1) 0%, transparent 30%);
+            animation: rotate 30s linear infinite;
+            z-index: -1;
         }
 
-        /* Sidebar Glass */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 2. GLASSMORPHISM LAYERS */
         [data-testid="stSidebar"] {
-            background-color: rgba(0, 0, 0, 0.4) !important;
+            background-color: rgba(255, 255, 255, 0.03) !important;
             backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Hide Streamlit Clutter */
+        [data-testid="stChatMessage"] {
+            background: rgba(255, 255, 255, 0.04) !important;
+            backdrop-filter: blur(15px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px !important;
+        }
+
+        /* 3. MODERN TYPOGRAPHY */
+        h1, h2, h3, p, span {
+            color: #e6f1ff !important;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* 4. CHAT INPUT STYLING */
+        .stChatInputContainer {
+            background: transparent !important;
+            bottom: 30px !important;
+        }
+        
+        .stChatInputContainer div {
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 30px !important;
+        }
+
+        /* 5. HIDE DEFAULT ELEMENTS */
         header, footer { visibility: hidden; }
         
-        /* Button Styling */
+        /* Modern Button Styling */
         .stButton>button {
-            border-radius: 15px;
-            background: rgba(78, 204, 163, 0.2);
-            border: 1px solid #4ecca3;
-            color: white;
-            transition: 0.3s;
+            width: 100%;
+            border-radius: 12px;
+            background: rgba(78, 204, 163, 0.1);
+            border: 1px solid rgba(78, 204, 163, 0.3);
+            color: #4ecca3;
+            font-weight: 600;
+            padding: 10px;
+            transition: all 0.3s ease;
         }
-        .stButton>button:hover { background: #4ecca3; color: black; }
+        .stButton>button:hover {
+            background: #4ecca3;
+            color: #0a192f;
+            transform: translateY(-2px);
+        }
         </style>
-
-        <div id="vanta-canvas"></div>
-        <script>
-            VANTA.NET({
-                el: "#vanta-canvas",
-                mouseControls: true,
-                touchControls: true,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 1.00,
-                color: 0x4ecca3,
-                backgroundColor: 0x0a192f,
-                points: 12.00,
-                maxDistance: 24.00,
-                spacing: 16.00
-            })
-        </script>
     """, unsafe_allow_html=True)
 
 # --- 5. MAIN APP ---
+# ... (all your imports and logic functions at the top)
+
 def main():
-    st.set_page_config(page_title="YouthMind 3D", layout="wide")
-    apply_3d_ui()
+    st.set_page_config(page_title="YouthMind AI", layout="wide")
+    apply_3d_ui() # Calls the new CSS function
 
     data = load_data()
 
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
     # Sidebar
     with st.sidebar:
-        st.markdown("# 🕊️ YouthMind")
+        st.markdown("<h2 style='text-align: center;'>🕊️ YouthMind</h2>", unsafe_allow_html=True)
         st.markdown("---")
-        st.error("🆘 **Crisis Support**\n\nCall **999** or Text **SHOUT** to **85258**")
-        if st.button("Clear Conversation"):
+        st.error("🆘 **Crisis?** Call 999 or text SHOUT to 85258")
+        if st.button("Clear Chat"):
             st.session_state.messages = []
             st.rerun()
 
-    # Chat Layout
+    # Centered Column for Chat
     _, chat_col, _ = st.columns([1, 2, 1])
 
     with chat_col:
         st.markdown("<h1 style='text-align: center;'>Safe Space AI</h1>", unsafe_allow_html=True)
         
-        if "messages" not in st.session_state:
-            st.session_state.messages = []
-
-        # Display history
+        # Display messages
         for msg in st.session_state.messages:
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
 
-        # Quick Suggestion Pills
+        # Quick Suggestion Buttons
         if not st.session_state.messages:
-            st.write("How can I help you today?")
             c1, c2, c3 = st.columns(3)
             if c1.button("Exam Stress"): process_user_input("I'm stressed about exams.", data)
-            if c2.button("Anxiety Help"): process_user_input("I feel very anxious.", data)
-            if c3.button("Loneliness"): process_user_input("I've been feeling lonely.", data)
+            if c2.button("Anxiety"): process_user_input("I feel anxious.", data)
+            if c3.button("Loneliness"): process_user_input("I feel lonely.", data)
 
-        # Chat Input
-        if prompt := st.chat_input("Tell me what's on your mind..."):
+        # Input
+        if prompt := st.chat_input("How can I support you?"):
             process_user_input(prompt, data)
 
 if __name__ == "__main__":
     main()
+
