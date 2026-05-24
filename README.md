@@ -2,11 +2,9 @@
 Mental Health Bot
 # 🌱 YouthMind  - AI Mental Health Assistant
 
-A modern, 3D-animated mental health chatbot designed for youth. Built with Streamlit, Google Gemini AI, and NLTK.
+A modern, mental health chatbot designed for youth. Built with Streamlit, Google Gemini AI, and NLTK.
 
 ## ✨ Features
-- **3D Interactive Background:** Powered by Vanta.js.
-- **Glassmorphism UI:** Modern, frosted-glass interface.
 - **Hybrid Brain:** Uses local knowledge (TF-IDF) and Gemini AI for responses.
 - **Crisis Support:** Instant access to emergency resources.
 
