@@ -11,6 +11,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
+import streamlit as st
+from ui_style import set_modern_3d_ui
 
 # --- 1. INITIALIZATION & SETUP ---
 load_dotenv()
@@ -175,45 +177,58 @@ def apply_3d_ui():
 # ... (all your imports and logic functions at the top)
 
 def main():
-    st.set_page_config(page_title="YouthMind AI", layout="wide")
-    apply_3d_ui() # Calls the new CSS function
+    st.set_page_config(page_title="YouthMind AI", layout="wide", page_icon="🕊️")
+    
+    # 2. Inject the UI (The CSS-only Aurora)
+    from ui_style import set_modern_3d_ui
+    set_modern_3d_ui()
+    
+   
 
     data = load_data()
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Sidebar
+    # 3. Sidebar (Now with Glassmorphism from ui_style)
     with st.sidebar:
-        st.markdown("<h2 style='text-align: center;'>🕊️ YouthMind</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='text-align: center; color: white;'>🕊️ YouthMind</h2>", unsafe_allow_html=True)
         st.markdown("---")
-        st.error("🆘 **Crisis?** Call 999 or text SHOUT to 85258")
-        if st.button("Clear Chat"):
+        st.error("🆘 **Crisis Support**\n\nCall **999** or Text **SHOUT** to **85258**")
+        st.markdown("---")
+        if st.button("🗑️ Clear Conversation"):
             st.session_state.messages = []
             st.rerun()
 
-    # Centered Column for Chat
+    # 4. Centered Chat Layout
     _, chat_col, _ = st.columns([1, 2, 1])
 
     with chat_col:
-        st.markdown("<h1 style='text-align: center;'>Safe Space AI</h1>", unsafe_allow_html=True)
+        # Title with a modern glowing effect
+        with chat_col:
+        # REPLACE YOUR OLD TITLE WITH THIS LINE:
+            st.markdown('<p class="glowing-title">Safe Space AI</p>', unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; color: #4ecca3; opacity: 0.7;'>Your private space to talk and heal.</p>", unsafe_allow_html=True)
         
-        # Display messages
+        # Display chat history
         for msg in st.session_state.messages:
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
 
-        # Quick Suggestion Buttons
+        # Quick Suggestion Buttons (Only shown at start)
         if not st.session_state.messages:
+            st.markdown("<p style='text-align:center;'>How can I help you today?</p>", unsafe_allow_html=True)
             c1, c2, c3 = st.columns(3)
-            if c1.button("Exam Stress"): process_user_input("I'm stressed about exams.", data)
-            if c2.button("Anxiety"): process_user_input("I feel anxious.", data)
-            if c3.button("Loneliness"): process_user_input("I feel lonely.", data)
+            if c1.button("🎓 Exam Stress"): 
+                process_user_input("I'm feeling very stressed about my upcoming exams.", data)
+            if c2.button("😟 Anxiety Help"): 
+                process_user_input("I'm feeling anxious and need some grounding techniques.", data)
+            if c3.button("🤝 Loneliness"): 
+                process_user_input("I've been feeling quite lonely and isolated lately.", data)
 
-        # Input
-        if prompt := st.chat_input("How can I support you?"):
+        # 5. Fixed Chat Input at the bottom
+        if prompt := st.chat_input("Tell me what's on your mind..."):
             process_user_input(prompt, data)
 
 if __name__ == "__main__":
     main()
-
