@@ -194,7 +194,7 @@ def main():
     with st.sidebar:
         st.markdown("<h2 style='text-align: center; color: white;'>🕊️ YouthMind</h2>", unsafe_allow_html=True)
         st.markdown("---")
-        st.error("🆘 **Crisis Support**\n\nCall **999** or Text **SHOUT** to **85258**")
+        st.error("🆘 **Crisis Support**\n\nCall **022-25521111** or Text **SHOUT** to **85258**")
         st.markdown("---")
         if st.button("🗑️ Clear Conversation"):
             st.session_state.messages = []
